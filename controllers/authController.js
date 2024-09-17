@@ -83,14 +83,16 @@ const authController = {
       refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
       const newAccessToken = authController.generateAccessToken(user);
       const newRefreshToken = authController.generateRefreshToken(user);
-      refreshTokens.push(newAccessToken);
+      refreshTokens.push(newRefreshToken);
       res.cookie("refreshToken", newRefreshToken, {
         httpOnly: true,
         secure: false,
         path: "/",
         sameSite: "strict",
       });
-      res.status(200).json({ accessToken: newAccessToken });
+      res
+        .status(200)
+        .json({ accessToken: newAccessToken, refreshToken: newRefreshToken });
     });
   },
   userLogout: async (req, res) => {
